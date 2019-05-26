@@ -101,4 +101,33 @@
       }
     }
   }
+
+  #saying {
+    .blockSaying {
+      margin-bottom: 160px;
+    }
+
+    .quotation {
+      color: $DEFAULT;
+      font-size: 138px;
+      line-height: 0;
+
+      &.last {
+        margin-top: -30px;
+        transform: rotate(180deg);
+      }
+    }
+
+    p {
+      font-size: 22px;
+      color: $SECONDARY;
+      line-height: 34px;
+      margin-bottom: 10px;
+    }
+
+    .author {
+      font-size: 16px;
+      color: $SECONDARY;
+    }
+  }
 }

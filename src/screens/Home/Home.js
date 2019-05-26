@@ -191,7 +191,6 @@ class Home extends Component {
         return slides;
     }
 
-
     _renderScreenShots(array) {
         let items = [];
 
@@ -253,12 +252,22 @@ class Home extends Component {
 
         for (let i = 0; i < array.length; i++) {
             const { text, author } = array[i];
-            
+
             items.push(
-                <Col lg={4}>
+                <Col key={i} sm={6} xs={12}>
+                    <Fade>
+                        <div className={css.blockSaying}>
+                            <div className={css.quotation}>“</div>
+                            <p>{text}</p>
+                            <div className={css.author}>{author}</div>
+                            <div className={`${css.quotation} ${css.last} text-left`}>“</div>
+                        </div>
+                    </Fade>
                 </Col>
             )
         }
+
+        return items;
     }
 
 
@@ -267,7 +276,6 @@ class Home extends Component {
     }
 
     render() {
-
 
         const { widgets, features, activeIndex, screenshots, saying } = this.state;
 
@@ -326,13 +334,15 @@ class Home extends Component {
                     </div>
 
 
-                    <div id={css.screenShoots} className={components.sections}>
+                    <div id={css.saying} className={components.sections}>
                         <header className="text-center">
                             <h2>What people are saying</h2>
                             <h5>Reviews</h5>
                         </header>
                         <Container>
-                            {this._renderSaying(saying)}
+                            <Row>
+                                {this._renderSaying(saying)}
+                            </Row>
                         </Container>
                     </div>
                 </div>
