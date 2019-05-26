@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Fade from 'react-reveal/Fade';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Images } from '../../utils/Images';
+import ScrollableAnchor from 'react-scrollable-anchor';
 import {
   Container,
   Collapse,
@@ -27,9 +28,24 @@ class Header extends Component {
     super(props);
     this.state = {
       menu: this.props.menu,
-      socials: this.props.socials
+      socials: this.props.socials,
+      fixed: ""
 
     }
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  handleScroll(event) {
+    const scrollTop = event.target.documentElement.scrollTop;
+    if (scrollTop > 300) {
+      this.setState({ fixed: "top" });
+    } else {
+      this.setState({ fixed: "" });
+    }
+
   }
 
   _renderMennu(array) {
@@ -64,58 +80,60 @@ class Header extends Component {
   }
 
   render() {
-    const { menu, socials } = this.state;
+    const { menu, socials, fixed } = this.state;
     return (
-      <div id="header" className={css.header}>
-        <Navbar color="transparent" light expand="md">
-          <Container>
-            <NavbarBrand href="/"><h1 className={css.logo}>Fun Weather.</h1></NavbarBrand>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse className={css.headerNavbar} navbar>
-              <Nav navbar>
-                {this._renderMennu(menu)}
-              </Nav>
-            </Collapse>
-            <Collapse navbar className={css.headerNavbarSocial}>
-              <Nav navbar>
-                {this._renderMennuSocial(socials)}
-              </Nav>
-            </Collapse>
-          </Container>
-        </Navbar>
+      <ScrollableAnchor id={'header'}>
+        <div className={css.header}>
+          <Navbar color="transparent" light expand="md" fixed={fixed} className={fixed ? css.fixedTopNavbar : ''}>
+            <Container>
+              <NavbarBrand href="/"><h1 className={css.logo}>Fun Weather.</h1></NavbarBrand>
+              <NavbarToggler onClick={this.toggle} />
+              <Collapse className={css.headerNavbar} navbar>
+                <Nav navbar>
+                  {this._renderMennu(menu)}
+                </Nav>
+              </Collapse>
+              <Collapse navbar className={css.headerNavbarSocial}>
+                <Nav navbar>
+                  {this._renderMennuSocial(socials)}
+                </Nav>
+              </Collapse>
+            </Container>
+          </Navbar>
 
-        <div id="apresentation" className={css.banner}>
-          <Container>
-            <Row className={css.rowMiddle}>
-              <Col md={6} sm={12}>
-                <Fade bottom cascade>
-                  <div>
-                    <h2 className={css.titleBanner}>Get the most fun <br /> weather app</h2>
-                    <p className={css.paragraph}>Simple, nice and user-friendly application of the <br /> weather. Only useful information</p>
-                  </div>
-                </Fade>
-                <Fade delay={800} bottom>
-                  <div className={css.groupButton}>
-                    <Button className={components.btnSecondary} color="secondary">Download</Button>
-                    <Button className={components.btnPrimary} color="primary">Features</Button>
-                  </div>
-                </Fade>
-              </Col>
-              <Col md={6} sm={12}>
-                <div className={css.contentElements}>
-                  <Fade>
-                    <div className={css.phone}>
-                      <img src={Images.PHONE} />
-                      <img className={css.afterPhone} src={Images.AFTERPHONE} />
+          <div id="apresentation" className={css.banner}>
+            <Container>
+              <Row className={css.rowMiddle}>
+                <Col md={6} sm={12}>
+                  <Fade bottom cascade>
+                    <div>
+                      <h2 className={css.titleBanner}>Get the most fun <br /> weather app</h2>
+                      <p className={css.paragraph}>Simple, nice and user-friendly application of the <br /> weather. Only useful information</p>
                     </div>
                   </Fade>
+                  <Fade delay={800} bottom>
+                    <div className={css.groupButton}>
+                      <Button className={components.btnSecondary} color="secondary">Download</Button>
+                      <a href="#features" className={components.btnPrimary} color="primary">Features</a>
+                    </div>
+                  </Fade>
+                </Col>
+                <Col md={6} sm={12}>
+                  <div className={css.contentElements}>
+                    <Fade>
+                      <div className={css.phone}>
+                        <img src={Images.PHONE} />
+                        <img className={css.afterPhone} src={Images.AFTERPHONE} />
+                      </div>
+                    </Fade>
 
-                </div>
-              </Col>
-            </Row>
-          </Container>
+                  </div>
+                </Col>
+              </Row>
+            </Container>
+          </div>
         </div>
-      </div>
+      </ScrollableAnchor>
     );
   }
 };

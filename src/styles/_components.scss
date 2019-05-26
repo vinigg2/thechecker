@@ -16,10 +16,12 @@
   padding: 13px 43px;
   background: $BLUE;
   border-radius: 8px;
+  color: $LIGHT;
 
   &:hover {
     background: $LIGHT;
     color: $BLUE;
+    text-decoration: none;
   }
 }
 

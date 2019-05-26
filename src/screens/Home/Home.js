@@ -3,6 +3,7 @@ import components from '../../styles/global.scss';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Fade from 'react-reveal/Fade';
+import ScrollableAnchor from 'react-scrollable-anchor';
 
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -52,15 +53,15 @@ class Home extends Component {
             menu: [
                 {
                     label: 'Home',
-                    link: '#'
+                    link: '#header'
                 },
                 {
                     label: 'Features',
-                    link: '#'
+                    link: '#features'
                 },
                 {
                     label: 'Screenshots',
-                    link: '#'
+                    link: '#screenshoots'
                 },
                 {
                     label: 'Login',
@@ -236,8 +237,8 @@ class Home extends Component {
 
             if (this.isOdd(i) === 1) {
                 items.push(
-                    <Fade>
-                        <Row key={i}>
+                    <Fade key={i}>
+                        <Row>
                             <Col lg={8} md={6} xs={12} className="text-right">
                                 <div className={css.icon}>
                                     <img src={content.icon} />
@@ -258,8 +259,8 @@ class Home extends Component {
                 );
             } else {
                 items.push(
-                    <Fade>
-                        <Row key={i}>
+                    <Fade key={i}>
+                        <Row>
                             <Col lg={4} md={6} xs={12} className="text-center">
                                 <img src={phone} className={css.phone} />
                             </Col>
@@ -321,67 +322,75 @@ class Home extends Component {
                 <Header menu={menu} socials={socials} />
 
                 <div id={css.bodyMain}>
-                    <div id="features" className={components.sections}>
-                        <header className="text-center">
-                            <h2>Perfect Features</h2>
-                            <h5>Only necessary</h5>
-                        </header>
-                        <section className={css.listGroup}>
+                    <ScrollableAnchor id={'features'}>
+                        <div className={components.sections}>
+                            <header className="text-center">
+                                <h2>Perfect Features</h2>
+                                <h5>Only necessary</h5>
+                            </header>
+                            <section className={css.listGroup}>
+                                <Container>
+                                    <Fade bottom>
+                                        <Row>
+                                            {this._renderFeatures(features)}
+                                        </Row>
+                                    </Fade>
+                                </Container>
+                            </section>
+                        </div>
+                    </ScrollableAnchor>
+
+
+                    <ScrollableAnchor id={'widgets'}>
+                        <div className={components.sections}>
+                            <header className="text-center">
+                                <h2>Simples Widgets</h2>
+                                <h5>Drag and drop</h5>
+                            </header>
+                            <Fade>
+                                <Container>
+                                    <Carousel
+                                        activeIndex={activeIndex}
+                                        next={() => this.next}
+                                        previous={() => this.previous}
+                                        className="text-center"
+                                    >
+                                        {this._renderWidgets(widgets)}
+                                        <CarouselControl className={`${css.customControlLeft} ${css.customControl}`} direction="prev" directionText="Previous" onClickHandler={() => this.previous(widgets)} />
+                                        <CarouselControl className={`${css.customControlRight} ${css.customControl}`} direction="next" directionText="Next" onClickHandler={() => this.next(widgets)} />
+                                    </Carousel>
+                                </Container>
+                            </Fade>
+                        </div>
+                    </ScrollableAnchor>
+
+
+                    <ScrollableAnchor id={'screenshoots'}>
+                        <div id={css.screenShoots} className={components.sections}>
+                            <header className="text-center">
+                                <h2>Screenshoots</h2>
+                                <h5>The brightest images</h5>
+                            </header>
                             <Container>
-                                <Fade bottom>
-                                    <Row>
-                                        {this._renderFeatures(features)}
-                                    </Row>
-                                </Fade>
+                                {this._renderScreenShots(screenshots)}
                             </Container>
-                        </section>
-                    </div>
+                        </div>
+                    </ScrollableAnchor>
 
 
-                    <div id="widgets" className={components.sections}>
-                        <header className="text-center">
-                            <h2>Simples Widgets</h2>
-                            <h5>Drag and drop</h5>
-                        </header>
-                        <Fade>
+                    <ScrollableAnchor id={'saying'}>
+                        <div id={css.saying} className={components.sections}>
+                            <header className="text-center">
+                                <h2>What people are saying</h2>
+                                <h5>Reviews</h5>
+                            </header>
                             <Container>
-                                <Carousel
-                                    activeIndex={activeIndex}
-                                    next={this.next}
-                                    previous={this.previous}
-                                    className="text-center"
-                                >
-                                    {this._renderWidgets(widgets)}
-                                    <CarouselControl className={[css.customControlLeft, css.customControl]} direction="prev" directionText="Previous" onClickHandler={() => this.previous(widgets)} />
-                                    <CarouselControl className={[css.customControlRight, css.customControl]} direction="next" directionText="Next" onClickHandler={() => this.next(widgets)} />
-                                </Carousel>
+                                <Row>
+                                    {this._renderSaying(saying)}
+                                </Row>
                             </Container>
-                        </Fade>
-                    </div>
-
-
-                    <div id={css.screenShoots} className={components.sections}>
-                        <header className="text-center">
-                            <h2>Screenshoots</h2>
-                            <h5>The brightest images</h5>
-                        </header>
-                        <Container>
-                            {this._renderScreenShots(screenshots)}
-                        </Container>
-                    </div>
-
-
-                    <div id={css.saying} className={components.sections}>
-                        <header className="text-center">
-                            <h2>What people are saying</h2>
-                            <h5>Reviews</h5>
-                        </header>
-                        <Container>
-                            <Row>
-                                {this._renderSaying(saying)}
-                            </Row>
-                        </Container>
-                    </div>
+                        </div>
+                    </ScrollableAnchor>
                 </div>
 
                 <Footer menu={menu} socials={socials} />

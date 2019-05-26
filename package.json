@@ -48,6 +48,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
+    "react-scrollable-anchor": "^0.6.1",
     "reactstrap": "^8.0.0",
     "redux": "^4.0.0",
     "redux-axios-middleware": "^4.0.0",
