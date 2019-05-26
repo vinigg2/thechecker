@@ -3,8 +3,6 @@ import components from '../../styles/global.scss';
 import React, { Component } from 'react';
 import Fade from 'react-reveal/Fade';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { Images } from '../../utils/Images';
 import {
   Container,
@@ -21,9 +19,6 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-
-library.add(faFacebook, faInstagram, faTwitter)
-
 class Header extends Component {
 
 
@@ -31,39 +26,8 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menu: [
-        {
-          label: 'Home',
-          link: '#'
-        },
-        {
-          label: 'Features',
-          link: '#'
-        },
-        {
-          label: 'Screenshots',
-          link: '#'
-        },
-        {
-          label: 'Login',
-          link: '#'
-        }
-      ],
-
-      socials: [
-        {
-          label: faFacebook,
-          link: '#'
-        },
-        {
-          label: faInstagram,
-          link: '#'
-        },
-        {
-          label: faTwitter,
-          link: '#'
-        }
-      ]
+      menu: this.props.menu,
+      socials: this.props.socials
 
     }
   }
@@ -100,6 +64,7 @@ class Header extends Component {
   }
 
   render() {
+    const { menu, socials } = this.state;
     return (
       <div id="header" className={css.header}>
         <Navbar color="transparent" light expand="md">
@@ -108,12 +73,12 @@ class Header extends Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse className={css.headerNavbar} navbar>
               <Nav navbar>
-                {this._renderMennu(this.state.menu)}
+                {this._renderMennu(menu)}
               </Nav>
             </Collapse>
             <Collapse navbar className={css.headerNavbarSocial}>
               <Nav navbar>
-                {this._renderMennuSocial(this.state.socials)}
+                {this._renderMennuSocial(socials)}
               </Nav>
             </Collapse>
           </Container>

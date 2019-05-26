@@ -5,7 +5,12 @@ import PropTypes from 'prop-types';
 import Fade from 'react-reveal/Fade';
 
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import { Images } from '../../utils/Images';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
+library.add(faFacebook, faInstagram, faTwitter);
 
 import {
     Media,
@@ -30,6 +35,38 @@ class Home extends Component {
 
         this.state = {
             activeIndex: 0,
+            socials: [
+                {
+                    label: faFacebook,
+                    link: '#'
+                },
+                {
+                    label: faInstagram,
+                    link: '#'
+                },
+                {
+                    label: faTwitter,
+                    link: '#'
+                }
+            ],
+            menu: [
+                {
+                    label: 'Home',
+                    link: '#'
+                },
+                {
+                    label: 'Features',
+                    link: '#'
+                },
+                {
+                    label: 'Screenshots',
+                    link: '#'
+                },
+                {
+                    label: 'Login',
+                    link: '#'
+                }
+            ],
             features: [
                 {
                     title: 'Usability',
@@ -277,11 +314,11 @@ class Home extends Component {
 
     render() {
 
-        const { widgets, features, activeIndex, screenshots, saying } = this.state;
+        const { widgets, features, activeIndex, screenshots, saying, menu, socials } = this.state;
 
         return (
             <div id="home">
-                <Header />
+                <Header menu={menu} socials={socials} />
 
                 <div id={css.bodyMain}>
                     <div id="features" className={components.sections}>
@@ -346,6 +383,8 @@ class Home extends Component {
                         </Container>
                     </div>
                 </div>
+
+                <Footer menu={menu} socials={socials} />
             </div>
         );
     }

@@ -1,4 +1,5 @@
 export const Images = {
+    GOOGLEPLAY: require('../images/googleplay.png'),
     APPSTORE: require('../images/appstore.png'),
     ICON_DIAMOND: require('../images/icon-diamond.png'),
     ICON_DROP: require('../images/icon-drop.png'),
