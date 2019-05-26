@@ -1,0 +1,48 @@
+// Btns
+
+.btnSecondary {
+  padding: 13px 43px;
+  background: $RED;
+  border-radius: 8px;
+  transition: all 250ms;
+
+  &:hover {
+    background: $LIGHT;
+    color: $RED;
+  }
+}
+
+.btnPrimary {
+  padding: 13px 43px;
+  background: $BLUE;
+  border-radius: 8px;
+
+  &:hover {
+    background: $LIGHT;
+    color: $BLUE;
+  }
+}
+
+// Sections
+
+.sections {
+  padding: 130px 0 70px;
+
+  header {
+    margin-bottom: 80px;
+
+    h2 {
+      font-size: 36px;
+      color: $DEFAULT;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    h5 {
+      margin: 0;
+      font-size: 18px;
+      color: $GRAY;
+    }
+  }
+}
