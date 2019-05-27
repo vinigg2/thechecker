@@ -5,6 +5,8 @@ import Fade from 'react-reveal/Fade';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Images } from '../../utils/Images';
 import ScrollableAnchor from 'react-scrollable-anchor';
+import PropTypes from 'prop-types';
+
 import {
   Container,
   Collapse,
@@ -18,7 +20,6 @@ import {
   NavLink,
   Button
 } from 'reactstrap';
-import PropTypes from 'prop-types';
 
 class Header extends Component {
 
@@ -26,6 +27,7 @@ class Header extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       menu: this.props.menu,
       socials: this.props.socials,
@@ -53,16 +55,23 @@ class Header extends Component {
 
     for (let i = 0; i < array.length; i++) {
       const { label, link } = array[i];
-      items.push(
-        <NavItem key={i}>
-          <NavLink className={css.navLinkCustom} href={link}>{label}</NavLink>
-        </NavItem>
-      );
+      if (label.toLowerCase() === 'login') {
+        items.push(
+          <NavItem key={i}>
+            <NavLink className={css.navLinkCustom} onClick={() => this.props.modalOpen(true)} href="javascript:void(0)">{label}</NavLink>
+          </NavItem>
+        );
+      } else {
+        items.push(
+          <NavItem key={i}>
+            <NavLink className={css.navLinkCustom} href={link}>{label}</NavLink>
+          </NavItem>
+        );
+      }
     }
 
     return items;
   }
-
 
   _renderMennuSocial(array) {
     let items = [];
@@ -73,7 +82,7 @@ class Header extends Component {
         <NavItem key={i}>
           <NavLink className={css.navLinkCustomSocial} href={link}><FontAwesomeIcon icon={label} /></NavLink>
         </NavItem>
-      );
+      )
     }
 
     return items;

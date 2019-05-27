@@ -22,6 +22,7 @@ import {
     CarouselItem,
     CarouselControl
 } from 'reactstrap';
+import Login from '../../components/Login/Login';
 
 class Home extends Component {
     constructor(props) {
@@ -36,6 +37,8 @@ class Home extends Component {
 
         this.state = {
             activeIndex: 0,
+            status: false,
+
             socials: [
                 {
                     label: faFacebook,
@@ -85,7 +88,6 @@ class Home extends Component {
                     icon: Images.ICON_DROP
                 },
             ],
-
             screenshots: [
                 {
                     phone: Images.PHONE1,
@@ -313,13 +315,25 @@ class Home extends Component {
         return num % 2;
     }
 
+    modalClose = (close) => {
+        this.setState({
+            status: close
+        })
+    }
+
+    modalOpen = (open) => {
+        this.setState({
+            status: true
+        })
+    }
+
     render() {
 
-        const { widgets, features, activeIndex, screenshots, saying, menu, socials } = this.state;
+        const { widgets, features, activeIndex, screenshots, saying, menu, socials, status } = this.state;
 
         return (
             <div id="home">
-                <Header menu={menu} socials={socials} />
+                <Header menu={menu} modalOpen={this.modalOpen} socials={socials} />
 
                 <div id={css.bodyMain}>
                     <ScrollableAnchor id={'features'}>
@@ -394,6 +408,8 @@ class Home extends Component {
                 </div>
 
                 <Footer menu={menu} socials={socials} />
+
+                <Login status={status} modalClose={this.modalClose} />
             </div>
         );
     }
@@ -401,4 +417,5 @@ class Home extends Component {
 
 export default Home;
 
-Home.propTypes = {};
+Home.propTypes = {
+};

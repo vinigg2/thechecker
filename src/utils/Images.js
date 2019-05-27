@@ -14,4 +14,5 @@ export const Images = {
     PHONES: require('../images/phones-footer.png'),
     WIDGETS: require('../images/widgets.png'),
     AFTERPHONE: require('../images/after-phone.png'),
+    AVATAR: require('../images/avatar.png')
 }
