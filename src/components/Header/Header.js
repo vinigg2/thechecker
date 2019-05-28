@@ -42,10 +42,12 @@ class Header extends Component {
       menu: this.props.menu,
       socials: this.props.socials,
       dropdownOpen: false,
+      isOpen: false,
       fixed: ""
     }
 
     this.toggle = this.toggle.bind(this);
+    this.toggleMobile = this.toggleMobile.bind(this);
   }
 
   componentDidMount() {
@@ -82,6 +84,13 @@ class Header extends Component {
     }));
   }
 
+
+  toggleMobile() {
+    this.setState(prevState => ({
+      isOpen: !prevState.dropdownMobileOpen
+    }));
+  }
+
   _renderMenuLogin() {
     const { me } = this.props;
 
@@ -110,14 +119,14 @@ class Header extends Component {
   }
 
   render() {
-    const { menu, socials, fixed } = this.state;
+    const { menu, fixed } = this.state;
     return (
       <ScrollableAnchor id={'header'}>
         <div className={css.header}>
           <Navbar color="transparent" light expand="md" fixed={fixed} className={fixed ? css.fixedTopNavbar : ''}>
-            <Container>
+            <Container className={css.containerCustom}>
               <NavbarBrand href="/"><h1 className={css.logo}>Fun Weather.</h1></NavbarBrand>
-              <NavbarToggler onClick={this.toggle} />
+              <NavbarToggler onClick={this.toggleMobile} />
               <Collapse className={css.headerNavbar} navbar>
                 <Nav navbar>
                   {this._renderMennu(menu)}
@@ -152,7 +161,7 @@ class Header extends Component {
                   <div className={css.contentElements}>
                     <Fade>
                       <div className={css.phone}>
-                        <img src={Images.PHONE} />
+                        <img src={Images.PHONE} className={css.phoneImage} />
                         <img className={css.afterPhone} src={Images.AFTERPHONE} />
                       </div>
                     </Fade>

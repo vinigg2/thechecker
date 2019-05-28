@@ -106,6 +106,14 @@
 
     .contentElements {
       text-align: center;
+
+      .phoneImage {
+        max-width: 100%;
+      }
+
+      .afterPhone {
+        max-width: 100%;
+      }
     }
 
     .phone {
@@ -158,6 +166,66 @@
       &:focus {
         border: 0;
         box-shadow: 0 0 0;
+      }
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .banner {
+      .titleBanner {
+        font-size: 52px;
+      }
+      .contentElements {
+        .phoneImage {
+          max-width: 55%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 992px) {
+    height: 500px;
+    min-height: initial;
+
+    .banner {
+      .titleBanner {
+        font-size: 40px;
+      }
+
+      .paragraph {
+        font-size: 14px;
+      }
+    }
+
+    .headerNavbar {
+      .navLinkCustom {
+        padding: 8px 25px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contentElements {
+      display: none;
+    }
+
+    .containerCustom {
+      justify-content: initial;
+
+      a {
+        flex: 1;
+      }
+
+      button {
+        order: 2;
+      }
+    }
+
+    .banner {
+      .paragraph,
+      .groupButton,
+      .titleBanner {
+        text-align: center;
       }
     }
   }

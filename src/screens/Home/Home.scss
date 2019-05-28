@@ -130,4 +130,46 @@
       color: $SECONDARY;
     }
   }
+
+  @media (max-width: 1200px) {
+    #widgets {
+      img {
+        max-width: 70%;
+      }
+    }
+
+    #screenShoots {
+      .phone {
+        margin-bottom: 100px;
+      }
+    }
+  }
+
+  @media (max-width: 992px) {
+    #screenShoots {
+      p {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    #screenShoots {
+      .icon,
+      h4,
+      p {
+        text-align: center;
+      }
+
+      ul,
+      ul.right {
+        justify-content: center;
+        margin-bottom: 50px;
+      }
+
+      .phone {
+        display: none;
+      }
+    }
+  }
 }

@@ -193,7 +193,7 @@ class Home extends Component {
         for (let i = 0; i < array.length; i++) {
             const { title, text, icon } = array[i];
             items.push(
-                <Col key={i}>
+                <Col lg={4} xs={12} key={i}>
                     <Media tag="li">
                         <Media left href="#">
                             <Media object src={icon} alt="Generic placeholder image" />
@@ -294,7 +294,7 @@ class Home extends Component {
             const { text, author } = array[i];
 
             items.push(
-                <Col key={i} sm={6} xs={12}>
+                <Col key={i} lg={6} xs={12}>
                     <Fade>
                         <div className={css.blockSaying}>
                             <div className={css.quotation}>“</div>
@@ -356,7 +356,7 @@ class Home extends Component {
 
 
                     <ScrollableAnchor id={'widgets'}>
-                        <div className={components.sections}>
+                        <div id={css.widgets} className={components.sections}>
                             <header className="text-center">
                                 <h2>Simples Widgets</h2>
                                 <h5>Drag and drop</h5>
