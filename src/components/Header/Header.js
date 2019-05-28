@@ -103,7 +103,7 @@ class Header extends Component {
             <DropdownToggle className={css.buttonUser}>
               <div className={css.avatar}>{firstName[0]}</div>
             </DropdownToggle>
-            <DropdownMenu>
+            <DropdownMenu className={css.dropDownCustom}>
               <DropdownItem onClick={() => browserHistory.push('/profile')}>profile</DropdownItem>
               <DropdownItem onClick={this.props.actions.logout}>logout</DropdownItem>
             </DropdownMenu>

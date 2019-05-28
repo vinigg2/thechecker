@@ -168,6 +168,10 @@
         box-shadow: 0 0 0;
       }
     }
+    .dropDownCustom {
+      left: initial !important;
+      right: -10px;
+    }
   }
 
   @media (max-width: 1200px) {
@@ -219,7 +223,8 @@
 
     .banner {
       .groupButton {
-        button, a {
+        button,
+        a {
           width: 100%;
           margin: 0;
           display: block;
