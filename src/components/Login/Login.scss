@@ -1,6 +1,12 @@
 .modal {
   .modalHeader {
     border: 0;
+
+    .back {
+      background: transparent;
+      font-size: 22px;
+      border: 0 !important;
+    }
   }
   .modalBody {
     .logo {
@@ -13,13 +19,13 @@
     }
 
     .form {
-        padding: 0 30px;
+      padding: 0 30px;
 
-        .input {
-            border-radius: 30px;
-            height: 55px;
-            padding-left: 25px;
-        }
+      .input {
+        border-radius: 30px;
+        height: 55px;
+        padding-left: 25px;
+      }
     }
 
     .groupButton {

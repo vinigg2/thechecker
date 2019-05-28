@@ -6,8 +6,11 @@ import configureStore from './store/configureStore';
 
 
 import Home from './screens/Home';
+import { getMe } from './actions/sessionActions';
 
-let store =  configureStore();
+let store = configureStore();
+
+store.dispatch(getMe(sessionStorage.getItem('token')));
 
 const App = createReactClass({
     render() {
@@ -19,5 +22,5 @@ const App = createReactClass({
     }
 });
 
-ReactDom.render(<App/>, document.getElementById('react-root'));
+ReactDom.render(<App />, document.getElementById('react-root'));
 

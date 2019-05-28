@@ -67,8 +67,8 @@ class Home extends Component {
                     link: '#screenshoots'
                 },
                 {
-                    label: 'Login',
-                    link: '#'
+                    label: 'Saying',
+                    link: '#saying'
                 }
             ],
             features: [
@@ -321,7 +321,7 @@ class Home extends Component {
         })
     }
 
-    modalOpen = (open) => {
+    modalOpen = () => {
         this.setState({
             status: true
         })
@@ -417,5 +417,4 @@ class Home extends Component {
 
 export default Home;
 
-Home.propTypes = {
-};
+Home.propTypes = {};

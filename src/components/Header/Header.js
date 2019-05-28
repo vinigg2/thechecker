@@ -6,6 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Images } from '../../utils/Images';
 import ScrollableAnchor from 'react-scrollable-anchor';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
+import * as sessionActions from '../../actions/sessionActions';
+library.add(faUserCircle);
 
 import {
   Container,
@@ -18,8 +23,13 @@ import {
   Row,
   Col,
   NavLink,
-  Button
+  Button,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from 'reactstrap';
+import { bindActionCreators } from 'redux';
 
 class Header extends Component {
 
@@ -31,9 +41,11 @@ class Header extends Component {
     this.state = {
       menu: this.props.menu,
       socials: this.props.socials,
+      dropdownOpen: false,
       fixed: ""
-
     }
+
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -52,40 +64,49 @@ class Header extends Component {
 
   _renderMennu(array) {
     let items = [];
-
     for (let i = 0; i < array.length; i++) {
       const { label, link } = array[i];
-      if (label.toLowerCase() === 'login') {
-        items.push(
-          <NavItem key={i}>
-            <NavLink className={css.navLinkCustom} onClick={() => this.props.modalOpen(true)} href="javascript:void(0)">{label}</NavLink>
-          </NavItem>
-        );
-      } else {
-        items.push(
-          <NavItem key={i}>
-            <NavLink className={css.navLinkCustom} href={link}>{label}</NavLink>
-          </NavItem>
-        );
-      }
+      items.push(
+        <NavItem key={i}>
+          <NavLink className={css.navLinkCustom} href={link}>{label}</NavLink>
+        </NavItem>
+      );
     }
 
     return items;
   }
 
-  _renderMennuSocial(array) {
-    let items = [];
+  toggle() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
+  }
 
-    for (let i = 0; i < array.length; i++) {
-      const { label, link } = array[i];
-      items.push(
-        <NavItem key={i}>
-          <NavLink className={css.navLinkCustomSocial} href={link}><FontAwesomeIcon icon={label} /></NavLink>
+  _renderMenuLogin() {
+    const { me } = this.props;
+
+    if (me.profile) {
+      const firstName = me.profile.name.split(' ')[0];
+      return (
+        <li>
+          <Dropdown className={css.userGroup} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+            <DropdownToggle className={css.buttonUser}>
+              <div className={css.avatar}>{firstName[0]}</div>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>edit profile</DropdownItem>
+              <DropdownItem onClick={this.props.actions.logout}>logout</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </li>
+      )
+    } else {
+      return (
+        <NavItem>
+          <NavLink className={css.navLinkCustomSocial} href="javascript:void(0)" onClick={() => this.props.modalOpen(true)}><FontAwesomeIcon icon={faUserCircle} /></NavLink>
         </NavItem>
       )
     }
-
-    return items;
   }
 
   render() {
@@ -102,11 +123,11 @@ class Header extends Component {
                   {this._renderMennu(menu)}
                 </Nav>
               </Collapse>
-              <Collapse navbar className={css.headerNavbarSocial}>
-                <Nav navbar>
-                  {this._renderMennuSocial(socials)}
-                </Nav>
-              </Collapse>
+              <div className={css.headerNavbarSocial}>
+                <ul>
+                  {this._renderMenuLogin()}
+                </ul>
+              </div>
             </Container>
           </Navbar>
 
@@ -147,6 +168,17 @@ class Header extends Component {
   }
 };
 
-export default Header;
 
-Header.propTypes = {};
+function mapStateToProps(state, ownProps) {
+  return {
+    me: state.session.me
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(sessionActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

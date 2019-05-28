@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
-import testData from './testData';
+import session from './sessionReducer';
 
-const testApp = combineReducers({
-  testData
+const rootReducer = combineReducers({
+  session
 })
 
-
-export default testApp
+export default rootReducer;

@@ -1,7 +1,14 @@
 import css from './Login.scss';
 import components from '../../styles/global.scss';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Fade from 'react-reveal/Fade';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as sessionActions from '../../actions/sessionActions';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faArrowAltCircleLeft } from '@fortawesome/free-regular-svg-icons';
+library.add(faArrowAltCircleLeft);
+
 import {
     Button,
     Modal,
@@ -9,27 +16,115 @@ import {
     ModalBody,
     Form,
     FormGroup,
-    Label,
-    Input,
-    FormText
+    Alert,
+    Input
 } from 'reactstrap';
 import { Images } from '../../utils/Images';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import SessionApi from '../../api/SessionApi';
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             modal: this.props.status,
-            type: 'home'
+            type: 'home',
+            error: '',
+            credentials: {
+                email: '',
+                password: ''
+            },
+            signup: {
+                name: '',
+                email: '',
+                password: ''
+            }
         };
 
         this.close = this.close.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onSignIn = this.onSignIn.bind(this);
+        this.onSave = this.onSave.bind(this);
+        this.handleError = this.handleError.bind(this);
+        this.onChangeSignUp = this.onChangeSignUp.bind(this);
     }
 
     componentWillReceiveProps(e) {
         this.setState({
             modal: e.status
         })
+    }
+
+    onChange(event) {
+        const field = event.target.name;
+        const credentials = this.state.credentials;
+        credentials[field] = event.target.value;
+        return this.setState({ credentials: credentials });
+    }
+
+
+    onChangeSignUp(event) {
+        const field = event.target.name;
+        const signup = this.state.signup;
+        signup[field] = event.target.value;
+        return this.setState({ signup: signup });
+    }
+
+    onSignIn(event) {
+        event.preventDefault();
+        const { me } = this.props;
+        this.props.actions.logInUser(this.state.credentials)
+            .then(() => {
+                if (me) {
+                    this.close();
+                }
+            })
+    }
+
+    onSave(event) {
+        event.preventDefault();
+        SessionApi.signup(this.state.signup)
+            .then(res => {
+                if (res && res.message) {
+
+                    const data = {
+                        email: this.state.signup.email,
+                        password: this.state.signup.password
+                    }
+
+                    this.props.actions.logInUser(data);
+
+                    this.setState({
+                        signup: {
+                            name: '',
+                            email: '',
+                            password: ''
+                        }
+                    });
+
+                    this.close();
+                } else {
+                    this.handleError('an account with this email has already been created', 3000);
+                }
+            })
+            .catch(error => {
+                this.handleError('try again later.', 3000);
+                console.error(error);
+            })
+    }
+
+    handleError(msgm, timeout) {
+        this.setState({
+            error: msgm
+        });
+
+        if (timeout) {
+            setTimeout(() => {
+                this.setState({
+                    error: ''
+                })
+            }, timeout)
+        }
     }
 
     close() {
@@ -44,6 +139,7 @@ class Login extends React.Component {
     }
 
     _renderContent(type) {
+        const { error, credentials, signup } = this.state;
         switch (type) {
             case 'home':
                 return (
@@ -53,8 +149,8 @@ class Login extends React.Component {
                             <img src={Images.AVATAR} />
                         </div>
                         <div className={css.groupButton}>
-                            <Button className={components.btnPrimary} onClick={() => this.handleType('login')} color="primary">Fazer login</Button>
-                            <Button className={components.btnSecondary} onClick={() => this.handleType('register')} color="secondary">Criar conta</Button>
+                            <Button className={components.btnPrimary} onClick={() => this.handleType('login')} color="primary">Sign in</Button>
+                            <Button className={components.btnSecondary} onClick={() => this.handleType('register')} color="secondary">Sign up</Button>
                         </div>
                     </div>
                 )
@@ -65,15 +161,21 @@ class Login extends React.Component {
                         <div className={`${css.avatar} text-center`}>
                             <img src={Images.AVATAR} />
                         </div>
+                        {
+                            error &&
+                            <Fade>
+                                <Alert className={'text-center'} color="danger">{error}</Alert>
+                            </Fade>
+                        }
                         <Form className={css.form}>
                             <FormGroup>
-                                <Input type="email" className={css.input} name="email" id="email" placeholder="E-mail" />
+                                <Input type="email" onChange={this.onChange} className={css.input} name="email" id="email" placeholder="E-mail" />
                             </FormGroup>
                             <FormGroup>
-                                <Input type="password" className={css.input} name="password" id="password" placeholder="Password" />
+                                <Input type="password" onChange={this.onChange} className={css.input} name="password" id="password" placeholder="Password" />
                             </FormGroup>
                             <div className={css.groupButton}>
-                                <Button className={components.btnPrimary} color="primary">Fazer login</Button>
+                                <Button disabled={!credentials.email || !credentials.password} className={components.btnPrimary} color="primary" onClick={this.onSignIn}>Sign in</Button>
                             </div>
                         </Form>
                     </Fade>
@@ -86,18 +188,24 @@ class Login extends React.Component {
                         <div className={`${css.avatar} text-center`}>
                             <img src={Images.AVATAR} />
                         </div>
+                        {
+                            error &&
+                            <Fade>
+                                <Alert className={'text-center'} color="danger">{error}</Alert>
+                            </Fade>
+                        }
                         <Form className={css.form}>
                             <FormGroup>
-                                <Input type="text" className={css.input} name="name" id="name" placeholder="Name" />
+                                <Input type="text" onChange={this.onChangeSignUp} className={css.input} name="name" id="name" placeholder="Name" />
                             </FormGroup>
                             <FormGroup>
-                                <Input type="email" className={css.input} name="email" id="email" placeholder="E-mail" />
+                                <Input type="email" onChange={this.onChangeSignUp} className={css.input} name="email" id="email" placeholder="E-mail" />
                             </FormGroup>
                             <FormGroup>
-                                <Input type="password" className={css.input} name="password" id="password" placeholder="Password" />
+                                <Input type="password" onChange={this.onChangeSignUp} className={css.input} name="password" id="password" placeholder="Password" />
                             </FormGroup>
                             <div className={css.groupButton}>
-                                <Button className={components.btnSecondary} color="secondary">Criar conta</Button>
+                                <Button disabled={!signup.email || !signup.password || !signup.name} onClick={this.onSave} className={components.btnSecondary} color="secondary">Sign up</Button>
                             </div>
                         </Form>
                     </Fade>
@@ -110,7 +218,15 @@ class Login extends React.Component {
         return (
             <div>
                 <Modal isOpen={this.state.modal} toggle={this.close} className={css.modal}>
-                    <ModalHeader className={css.modalHeader} toggle={this.close}></ModalHeader>
+                    <ModalHeader className={css.modalHeader} toggle={this.close}>
+                        {
+                            type !== 'home' &&
+                            <button className={css.back} onClick={() => { this.setState({ type: 'home' }) }}>
+                                <FontAwesomeIcon icon={faArrowAltCircleLeft} />
+                            </button>
+                        }
+
+                    </ModalHeader>
                     <ModalBody className={css.modalBody}>
                         {this._renderContent(type)}
                     </ModalBody>
@@ -120,4 +236,17 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+function mapStateToProps(state, ownProps) {
+    return {
+        me: state.session.me
+    }
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(sessionActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
