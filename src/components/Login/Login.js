@@ -75,8 +75,10 @@ class Login extends React.Component {
         const { me } = this.props;
         this.props.actions.logInUser(this.state.credentials)
             .then(() => {
-                if (me) {
+                if (me && me.profile) {
                     this.close();
+                } else {
+                    this.handleError('User not found.', 3000)
                 }
             })
     }

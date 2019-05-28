@@ -39,9 +39,12 @@ export function signUp(credentials) {
 }
 
 export function getMe(token) {
+  if (token) { }
   return function (dispatch) {
     return sessionApi.me({ token }).then(response => {
-      sessionStorage.setItem('token', response.user.password);
+      if (response.user && response.user.password) {
+        sessionStorage.setItem('token', response.user.password);
+      }
       dispatch(loginSuccess(response));
     }).catch(error => {
       throw (error);

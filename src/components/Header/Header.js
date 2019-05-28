@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
 import * as sessionActions from '../../actions/sessionActions';
+import { Link, browserHistory } from 'react-router';
 library.add(faUserCircle);
 
 import {
@@ -94,7 +95,7 @@ class Header extends Component {
   _renderMenuLogin() {
     const { me } = this.props;
 
-    if (me.profile) {
+    if (me && me.profile) {
       const firstName = me.profile.name.split(' ')[0];
       return (
         <li>
@@ -103,7 +104,7 @@ class Header extends Component {
               <div className={css.avatar}>{firstName[0]}</div>
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem>edit profile</DropdownItem>
+              <DropdownItem onClick={() => browserHistory.push('/profile')}>profile</DropdownItem>
               <DropdownItem onClick={this.props.actions.logout}>logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>
