@@ -87,7 +87,7 @@ class Header extends Component {
 
   toggleMobile() {
     this.setState(prevState => ({
-      isOpen: !prevState.dropdownMobileOpen
+      isOpen: !prevState.isOpen
     }));
   }
 
@@ -127,7 +127,7 @@ class Header extends Component {
             <Container className={css.containerCustom}>
               <NavbarBrand href="/"><h1 className={css.logo}>Fun Weather.</h1></NavbarBrand>
               <NavbarToggler onClick={this.toggleMobile} />
-              <Collapse className={css.headerNavbar} navbar>
+              <Collapse className={css.headerNavbar} navbar isOpen={this.state.isOpen}>
                 <Nav navbar>
                   {this._renderMennu(menu)}
                 </Nav>

@@ -205,6 +205,66 @@
   }
 
   @media (max-width: 768px) {
+    .titleBanner {
+      br {
+        display: none;
+      }
+    }
+
+    .paragraph {
+      br {
+        display: none;
+      }
+    }
+
+    .banner {
+      .groupButton {
+        button, a {
+          width: 100%;
+          margin: 0;
+          display: block;
+        }
+
+        a {
+          margin-top: 15px;
+        }
+      }
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: $SECONDARY !important;
+      z-index: 100;
+
+      &.fixedTopNavbar {
+        animation: initial;
+      }
+
+      .headerNavbar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 63px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 10px 0;
+
+        ul {
+          li {
+            .navLinkCustom {
+              text-align: center;
+              color: $LIGHT;
+              font-size: 16px;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
     .contentElements {
       display: none;
     }
@@ -222,6 +282,8 @@
     }
 
     .banner {
+      padding-top: 63px;
+
       .paragraph,
       .groupButton,
       .titleBanner {
